@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Personal</title>
+    <style>
+        #box {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+        }
+    </style>
+</head>
+<body>
+    <p id="box">test</p>
+    <script type="text/javascript">
+        var y = 0;
+        var x = 0;
+        addEventListener("keydown", keydownfunc, false);
+        function keydownfunc(event) {
+            var key_code = event.keyCode;
+            if (key_code === 37) x -= 32; //left arrow
+            if (key_code === 38) y -= 32; //up arrow
+            if (key_code === 39) x += 32; //right arrow
+            if (key_code === 40) y += 32; //down arrow
+            var box = document.getElementById("box");
+            box.style.top = y + "px";
+            box.style.left = x + "px";
+            console.log(x);
+            console.log(y);
+        }
+
+
+
+
+        // addEventListener("keydown", keydownfunc, false);
+        // function keydownfunc(event) {
+        //     alert(event.keyCode);
+        // }
+    </script>
+</body>
+</html>
