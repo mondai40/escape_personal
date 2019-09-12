@@ -6,28 +6,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escape Personal</title>
     <style>
-        #box {
-            position: absolute;
-            top: 0px;
-            left: 0px;
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
         }
+        .screen {
+            width: 300px;
+            height: 300px;
+            position: relative;
+
+        }
+        .back {
+            width: 100%;
+            height: 100%;
+            background-color: #dadada;
+            border: 1px solid black;
+            /* position: fixed; */
+        }
+        #character {
+            position: absolute;
+            bottom: 50px;
+            left: 135px;
+            font-size: 0px;
+        }
+        .bricks {
+            width: 100%;
+            height: 50px;
+            background-image: url("./img/wall-450106_640.jpg");
+            background-size: cover;
+            position: absolute;
+            bottom: 0px;
+        }
+        img {
+            width: 30px;
+            height: 30px;
+        }
+
     </style>
 </head>
 <body>
-    <p id="box">test</p>
+    <div class="screen">
+        <div class="back"></div>
+        <div class="bricks"></div>
+        <p id="character"><img src="./img/man_stand.png" alt="stand"></p>
+    </div>
+
     <script type="text/javascript">
-        var y = 0;
-        var x = 0;
+        var y = 50;
+        var x = 135;
         addEventListener("keydown", keydownfunc, false);
         function keydownfunc(event) {
+            var character = document.getElementById("character");
+            console.log(character.style.bottom);
             var key_code = event.keyCode;
-            if (key_code === 37) x -= 32; //left arrow
-            if (key_code === 38) y -= 32; //up arrow
-            if (key_code === 39) x += 32; //right arrow
-            if (key_code === 40) y += 32; //down arrow
-            var box = document.getElementById("box");
-            box.style.top = y + "px";
-            box.style.left = x + "px";
+            switch(key_code) {
+                case 37: //left
+                    x -= 15;
+                    character.innerHTML = "<img src='./img/man_stand.png' alt='stand'>";
+                    character.style.left = x + "px";
+                    break;
+                case 38: //up
+                    y += 32;
+                    character.innerHTML = "<img src='./img/man_backflip.png' alt='backflip'>";
+                    character.style.bottom = y + "px";
+                    sleep(2);
+                    character.style.bottom = "50px";
+                    character.innerHTML = "<img src='./img/man_stand.png' alt='stand'>";
+                    break;
+                case 39: // right
+                    x += 15;
+                    character.innerHTML = "<img src='./img/man_stand.png' alt='stand' style='transform: scale(-1, 1);'>";
+                    character.style.left = x + "px";
+                    break;
+                case 40:
+                    y -= 0; //down
+                    character.innerHTML = "<img src='./img/man_bendKnee.png' alt='bendKnee' style='height: 15px;'>";
+                    character.style.bottom = y + "px";
+                    break;
+
+            }
             console.log(x);
             console.log(y);
         }
