@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        canvas {
+            /* border: 1px solid #d3d3d3; */
+            background-color: #f1f1f1;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body onload="startGame()">
+    <!-- <button onmousedown="moveup()" onmouseup="stopMove()" ontouchstart="moveup()">UP</button>
+    <button onmousedown="movedown()" onmouseup="stopMove()" ontouchstart="movedown()">DOWN</button>
+    <button onmousedown="moveleft()" onmouseup="stopMove()" ontouchstart="moveleft()">LEFT</button>
+    <button onmousedown="moveright()" onmouseup="stopMove()" ontouchstart="moveright()">RIGHT</button> -->
+    <script>
+        var myBricks;
+        var myCharacter;
+        var myObstacle
+
+        function startGame() {
+            myGameArea.start();
+            myBricks = new component(480, 80, "brown", 0, 400);
+            myCharacter = new component(20, 40, "blue", 220, 360);
+            myObstacle = new component(20, 20, "red", 300, 360);
+        }
+
+        var myGameArea = {
+            canvas: document.createElement("canvas"),
+            start: function () {
+                this.canvas.width = 480;
+                this.canvas.height = 480;
+                this.context = this.canvas.getContext("2d");
+                document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                this.interval = setInterval(updateGameArea, 20);
+                window.addEventListener("keydown", function(e) {
+                        myGameArea.keys = (myGameArea.keys || []); //if there is value, assign values, if not, define array[]
+                        myGameArea.keys[e.keyCode] = true;
+                    });
+                window.addEventListener("keyup", function(e) {
+                        myGameArea.keys[e.keyCode] = false;
+                    });
+            },
+            clear: function() {
+                this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            },
+            stop: function() {
+                clearInterval(this.interval);
+            }
+        }
+
+        function component(width, height, color, x, y) {
+            this.width = width;
+            this.height = height;
+            this.speedX = 0;
+            this.speedY = 0;
+            this.x = x;
+            this.y = y;
+            this.update = function() {
+                ctx = myGameArea.context;
+                ctx.fillStyle = color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+            this.newPos = function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+            }
+            this.crashWith = function(otherobj) {
+                var myleft = this.x; //
+                var myright = this.x + (this.width); //
+                var mytop = this.y //
+                var mybottom = this.y + (this.height);
+                var otherleft = otherobj.x;
+                var otherright = otherobj.x + (otherobj.width);
+                var othertop = otherobj.y;
+                var otherbottom = otherobj.y + (otherobj.height);
+                var crash = true; //crashed
+                if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+                    crash = false; //not crashed
+                }
+                return crash;
+            }
+        }
+        function updateGameArea() {
+            if (myCharacter.crashWith(myObstacle)) {
+                myGameArea.stop();
+            } else {
+                myGameArea.clear();
+                myBricks.update();
+                myCharacter.speedX = 0; //These two lines for stopping movement.
+                myCharacter.speedY = 0; //
+                if (myGameArea.keys && myGameArea.keys[37]) {
+                    myCharacter.speedX = -1; //left
+                }
+                if (myGameArea.keys && myGameArea.keys[38]) {
+                    myCharacter.speedY -= 1; //up
+                    if (myCharacter.height === 20) {
+                        myCharacter.height = 40;
+                    }
+                }
+                if (myGameArea.keys && myGameArea.keys[39]) {
+                    myCharacter.speedX += 1; //right
+                }
+                if (myGameArea.keys && myGameArea.keys[40]) {
+                    myCharacter.speedY += 1; //down
+                    myCharacter.height = 20;
+                }
+                myCharacter.update();
+                myCharacter.newPos();
+                myObstacle.update();
+                myObstacle.x -= 1;
+            }
+        }
+
+        //The following scripts are for button
+        // function moveup() {
+        //     myCharacter.speedY -= 1;
+        // }
+        // function movedown() {
+        //     myCharacter.speedY += 1;
+        // }
+        // function moveleft() {
+        //     myCharacter.speedX -= 1;
+        // }
+        // function moveright() {
+        //     myCharacter.speedX += 1;
+        // }
+        // function stopMove() {
+        //     myCharacter.speedX = 0;
+        //     myCharacter.speedY = 0;
+        // }
+    </script>
+</body>
+</html>
