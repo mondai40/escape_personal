@@ -94,6 +94,7 @@
         }
 
         function updateGameArea() {
+            //before adding obstacle
             // if (myCharacter.crashWith(myObstacle)) {
             //     myGameArea.stop();
             // } else {
@@ -122,48 +123,66 @@
             //     // myObstacle.update();
             //     // myObstacle.x -= 1;
             // }
-            var x, y;
-            for (i = 0; i < myObstacle.length; i++) {
-                if (myCharacter.crashWith(myObstacle[i])) {
-                    myGameArea.stop();
-                    return;
-                }
-            }
-            myGameArea.clear();
-            myBricks.update();
-            myCharacter.speedX = 0; //These two lines for stopping movement.
-            myCharacter.speedY = 0; //
-            if (myGameArea.keys && myGameArea.keys[37]) {
-                myCharacter.speedX = -1; //left
-            }
-            if (myGameArea.keys && myGameArea.keys[38]) {
-                myCharacter.speedY -= 1; //up
-                if (myCharacter.height === 20) {
-                    myCharacter.height = 40;
-                }
-            }
-            if (myGameArea.keys && myGameArea.keys[39]) {
-                myCharacter.speedX += 1; //right
-            }
-            if (myGameArea.keys && myGameArea.keys[40]) {
-                myCharacter.speedY += 1; //down
-                myCharacter.height = 20;
-            }
-            myGameArea.frameNo += 1;
-            if (myGameArea.frameNo == 1 || everyinterval(150)) {
-                x = myGameArea.canvas.width; //make obstacle
-                y = myGameArea.canvas.height - 200;
-                y = 0;
-                myObstacle.push(new component(10, 200, "green", x, y));
-            }
-            for (i = 0; i < myObstacle.length; i++) {
-                myObstacle[i].x += -1;
-                myObstacle[i].update();
-            }
-            myCharacter.newPos();
-            myCharacter.update();
-        }
 
+            //add obstacle repeadly
+        //     var x, y;
+        //     for (i = 0; i < myObstacle.length; i++) {
+        //         if (myCharacter.crashWith(myObstacle[i])) {
+        //             myGameArea.stop();
+        //             return;
+        //         }
+        //     }
+        //     myGameArea.clear();
+        //     myBricks.update();
+        //     myCharacter.speedX = 0; //These two lines for stopping movement.
+        //     myCharacter.speedY = 0; //
+        //     if (myGameArea.keys && myGameArea.keys[37]) {
+        //         myCharacter.speedX = -1; //left
+        //     }
+        //     if (myGameArea.keys && myGameArea.keys[38]) {
+        //         myCharacter.speedY -= 1; //up
+        //         if (myCharacter.height === 20) {
+        //             myCharacter.height = 40;
+        //         }
+        //     }
+        //     if (myGameArea.keys && myGameArea.keys[39]) {
+        //         myCharacter.speedX += 1; //right
+        //     }
+        //     if (myGameArea.keys && myGameArea.keys[40]) {
+        //         myCharacter.speedY += 1; //down
+        //         myCharacter.height = 20;
+        //     }
+        //     myCharacter.newPos();
+        //     myCharacter.update();
+
+        //     myGameArea.frameNo += 1;
+        //     if (myGameArea.frameNo == 1 || everyinterval(150)) {
+        //         x = myGameArea.canvas.width; //make obstacle
+        //         y = myGameArea.canvas.height - 200;
+        //         myObstacle.push(new component(10, 200, "green", x, y));
+        //     }
+        //     for (i = 0; i < myObstacle.length; i++) {
+        //         myObstacle[i].x += -1;
+        //         myObstacle[i].update();
+        //     }
+        // }
+
+        //the add obstacle randomly
+        var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+        for (i = 0; i < myObstacle.length; i++) {
+            if (myCharacter.crashWith(myObstacle[i])) {
+                myGameArea.stop();
+                return;
+            }
+        }
+        myGameArea.clear();
+        myGameArea.frameNo += 1;
+        if (myGameArea.frameNo == 1 || everyinterval(150)) {
+            x = myGameArea.canvas.width;
+            minHeight = 20;
+            maxHeight = 200;
+            height =
+        }
         //The following scripts are for button
         // function moveup() {
         //     myCharacter.speedY -= 1;
