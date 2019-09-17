@@ -91,6 +91,12 @@
                 }
                 return crash;
             }
+            this.attack = function() {
+                var height = 20;
+                var length = 20;
+                var shootInterval = Math.floor(Math.random() * 100) + 50;
+                
+            }
         }
 
         function updateGameArea() {
@@ -165,35 +171,113 @@
         //         myObstacle[i].x += -1;
         //         myObstacle[i].update();
         //     }
-        // }
+        //
 
-        //the add obstacle randomly
-        var x, height, gap, minHeight, maxHeight, minGap, maxGap;
-        for (i = 0; i < myObstacle.length; i++) {
-            if (myCharacter.crashWith(myObstacle[i])) {
-                myGameArea.stop();
-                return;
+            // //the add obstacle randomly
+            // var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+            // for (i = 0; i < myObstacle.length; i++) {
+            //     if (myCharacter.crashWith(myObstacle[i])) {
+            //         myGameArea.stop();
+            //         return;
+            //     }
+            // }
+            // myGameArea.clear();
+            // myBricks.update();
+            // myGameArea.frameNo += 1;
+            // if (myGameArea.frameNo == 1 || everyinterval(150)) {
+            //     x = myGameArea.canvas.width;
+            //     minHeight = 20;
+            //     maxHeight = 200;
+            //     height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+            //     minGap = 50;
+            //     maxGap = 200;
+            //     gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+            //     myObstacle.push(new component(10, height, "green", x, 0));
+            //     myObstacle.push(new component(10, x - height - gap, "green", x, height + gap));
+            // }
+            // for (i = 0; i < myObstacle.length; i++) {
+            //     myObstacle[i].x += -1;
+            //     myObstacle[i].update();
+            // }
+            // myCharacter.speedX = 0; //These two lines for stopping movement.
+            // myCharacter.speedY = 0; //
+            // if (myGameArea.keys && myGameArea.keys[37]) {
+            //     myCharacter.speedX = -1; //left
+            // }
+            // if (myGameArea.keys && myGameArea.keys[38]) {
+            //     myCharacter.speedY -= 1; //up
+            //     if (myCharacter.height === 20) {
+            //         myCharacter.height = 40;
+            //     }
+            // }
+            // if (myGameArea.keys && myGameArea.keys[39]) {
+            //     myCharacter.speedX += 1; //right
+            // }
+            // if (myGameArea.keys && myGameArea.keys[40]) {
+            //     myCharacter.speedY += 1; //down
+            //     myCharacter.height = 20;
+            // }
+            // myCharacter.newPos();
+            // myCharacter.update();
+
+            // var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+            var x, y;
+            height = 50
+            width = 50
+            for (i = 0; i < myObstacle.length; i++) {
+                if (myCharacter.crashWith(myObstacle[i])) {
+                    myGameArea.stop();
+                    return;
+                }
             }
-        }
-        myGameArea.clear();
-        myGameArea.frameNo += 1;
-        if (myGameArea.frameNo == 1 || everyinterval(150)) {
-            x = myGameArea.canvas.width;
-            minHeight = 20;
-            maxHeight = 200;
-            height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
-            minGap = 50;
-            maxGap = 200;
-            gap = Math.floor(Math.random() * (maxGap-minGap + 1) + minGap);
-            myObstacle.push(new component(10, height, "green", x, 0));
-            myObstacle.push(new component(10, x - height -gap, "green", x, height + gap));
-        }
-        for (i = 0; i < myObstacle.length; i++) {
-            myObstacle[i].x += -1;
-            myObstacle[i].update();
-        }
-        myCharacter.newPos();
-        myCharacter.update();
+            myGameArea.clear();
+            myBricks.update();
+            myGameArea.frameNo += 1;
+            if (myGameArea.frameNo == 1 || everyinterval(150)) {
+                var obstaclePos = Math.floor(Math.random() * 3);
+                switch (obstaclePos) {
+                    case 0:
+                        x = 0;
+                        y = Math.floor(Math.random() * 350);
+                        break;
+                    case 1:
+                        x = Math.floor(Math.random() * 430);
+                        y = 0
+                        break;
+                    case 2:
+                        x = 430;
+                        y = Math.floor(Math.random() * 350);
+                        break;
+                }
+                myObstacle.push(new component(width, height, "black", x, y));
+            }
+            for (i = 0; i < myObstacle.length; i++) {
+                myObstacle[i].update();
+            }
+            //action start
+            myCharacter.speedX = 0; //These two lines for stopping movement.
+            myCharacter.speedY = 0; //
+            if (myGameArea.keys && myGameArea.keys[37] && myCharacter.x >= 0) {
+                myCharacter.speedX = -1; //left
+            }
+            if (myGameArea.keys && myGameArea.keys[38]) {
+                myCharacter.speedY -= 1; //up
+                if (myCharacter.height === 20) {
+                    myCharacter.height = 40;
+                    myCharacter.y -= 20;
+                }
+            }
+            if (myGameArea.keys && myGameArea.keys[39] && myCharacter.x <= 480) {
+                myCharacter.speedX += 1; //right
+            }
+            if (myGameArea.keys && myGameArea.keys[40] && myCharacter.y === 360) {
+                myCharacter.speedY += 1; //down
+                myCharacter.height = 20;
+                myCharacter.y += 20;
+            }
+            //action end
+            myCharacter.newPos();
+            myCharacter.update();
 
         //The following scripts are for button
         // function moveup() {
@@ -212,6 +296,7 @@
         //     myCharacter.speedX = 0;
         //     myCharacter.speedY = 0;
         // }
+        }
     </script>
 </body>
 </html>
