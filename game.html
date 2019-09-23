@@ -15,7 +15,8 @@
     <script>
         var myCharacter;
         var myObstacle = [];
-        var myBullet = [];
+        // var myBullet = [];
+        var myBullet;
 
         function startGame() {
             myGameArea.start();
@@ -46,6 +47,7 @@
                 clearInterval(this.interval);
             }
         }
+
         function everyinterval(n) { //judge if it's time to generate an obstacle
             if ((myGameArea.frameNo / n) % 1 == 0) {
                 return true;
@@ -84,25 +86,29 @@
                 }
                 return crash;
             }
-            this.attack = function(centerX, centerY, object) {
+            this.attack = function(object, character) {
                 var height = 20;
                 var width = 20;
-                var directX = object.x;
-                var directY = object.y;
+                var directX = character.x;
+                var directY = character.y;
+                var centerX = object.x + object.width / 4
+                var centerY = object.y + object.height / 4
                 var shootInterval = Math.floor(Math.random() * 100) + 50;
-                for (j = 0; j < myBullet.length; j++) {
-                    if (myCharacter.crashWith(myBullet[j])) {
+                if (myGameArea.frameNo == 1 || everyinterval(shootInterval)) {
+                    // myBullet.push(new component(width, height, "red", centerX, centerY));
+                    myBullet = new component(width, height, "red", centerX, centerY);
+                }
+                // for (j = 0; j < myBullet.length; j++) {
+                    // if (myCharacter.crashWith(myBullet[j])) {
+                    if (myCharacter.crashWith(myBullet)) {
                         myGameArea.stop();
                         return;
                     }
-                }
-                if (myGameArea.frameNo == 1 || everyinterval(shootInterval)) {
-                    var obstaclePos = Math.floor(Math.random() * 3);
-                    myBullet.push(new component(width, height, "red", centerX, centerY));
-                }
-                for (j = 0; j < myBullet.length; j++) {
-                    myBullet[j].update();
-                }
+                // }
+                myBullet.update();
+                // for (j = 0; j < myBullet.length; j++) {
+                //     myBullet[j].update();
+                // }
             }
         }
 
@@ -143,7 +149,7 @@
             }
             for (i = 0; i < myObstacle.length; i++) {
                 myObstacle[i].update();
-                myObstacle[i].attack(myObstacle[i].x + myObstacle[i].width / 4, myObstacle[i].y + myObstacle[i].width / 4, myCharacter);
+                myObstacle[i].attack(myObstacle[i], myCharacter);
             }
 
             //action start
@@ -155,7 +161,7 @@
             if (myGameArea.keys && myGameArea.keys[38] && myCharacter.y >= 0) {
                 myCharacter.speedY -= 1; //up
             }
-            if (myGameArea.keys && myGameArea.keys[39] && myCharacter.x <= 480) {
+            if (myGameArea.keys && myGameArea.keys[39] && myCharacter.x <= 460) {
                 myCharacter.speedX += 1; //right
             }
             if (myGameArea.keys && myGameArea.keys[40] && myCharacter.y <= 460) {
